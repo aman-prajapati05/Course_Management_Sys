@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Dashboard from './components/Dashboard'
 import CourseDetails from './components/CourseDetails'
+import StudentDashboard from './components/StudentDashboard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,7 +13,8 @@ function App() {
     <>
      {/* <CourseDetails/>
       */}
-      <Dashboard/>
+      {/* <Dashboard/> */}
+      <StudentDashboard/>
         </>
   )
 }
