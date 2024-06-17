@@ -10,7 +10,9 @@ function App() {
 
   return (
     <>
-     <CourseDetails/>
+     {/* <CourseDetails/>
+      */}
+      <Dashboard/>
         </>
   )
 }
