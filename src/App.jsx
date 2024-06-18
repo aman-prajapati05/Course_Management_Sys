@@ -5,6 +5,7 @@ import './App.css'
 import Dashboard from './components/Dashboard'
 import CourseDetails from './components/CourseDetails'
 import StudentDashboard from './components/StudentDashboard'
+import Navbar from './components/Navbar'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,7 +15,8 @@ function App() {
      {/* <CourseDetails/>
       */}
       {/* <Dashboard/> */}
-      <StudentDashboard/>
+      {/* <StudentDashboard/> */}
+      <Navbar/>
         </>
   )
 }
