@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Scard from './Scard'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
   return (
@@ -23,7 +24,7 @@ const Cart = () => {
             <div className='flex flex-col md:w-[30%]  px-4 py-12 sm:px-6 lg:px-8 flex-wrap '>
                 <div className='text-lg font-semibold'>Total:</div>
                 <div className='text-4xl font-bold text-purple-500 py-2'>$544</div>
-                <button className='  text-white bg-black text-lg font-bold p-4 '>Checkout</button>
+               <Link to='/Checkout'> <button className='  text-white bg-black text-lg font-bold p-4 '>Checkout</button></Link>
             </div>
             </div>
     </>
