@@ -90,8 +90,8 @@ export default function Navbar({onSearch}) {
         <div className="flex items-center space-x-4">
           <div className="hidden md:flex space-x-4">
             <Link to = '/Mycourses'><div className="text-xl font-medium text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-500">My courses</div></Link>
-            <button onClick={()=>handleButtonClick('python')} className="text-xl font-medium text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-500">Python</button>
-            <button onClick={()=>handleButtonClick('java')} className="text-xl font-medium text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-500">Java</button>
+            <Link to = '/'> <button onClick={()=>handleButtonClick('python')} className="text-xl font-medium text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-500">Python</button></Link>
+            <Link to = '/'><button onClick={()=>handleButtonClick('java')} className="text-xl font-medium text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-500">Java</button></Link>
           </div>
         </div>
 
