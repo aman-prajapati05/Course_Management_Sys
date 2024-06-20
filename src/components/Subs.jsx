@@ -8,7 +8,7 @@ const Subs = ({courses}) => {
             <div className='text-3xl font-bold text-purple-500'>Completed </div>
         </div>
             <div className=' mx-auto flex flex-wrap max-w-7xl justify-between px-4 py-8 sm:px-6 lg:px-8'>
-            <div className='grid grid-cols-4'>
+            <div className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
       {courses.map(course => (
         <div key={course.id} className='w-full p-4'>
           <div className='bg-white p-6 rounded-lg shadow-lg ' >
