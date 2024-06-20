@@ -1,0 +1,333 @@
+export const fetchUserCart = async (userId) => {
+  const userCartDoc = doc(fireDB, 'userCarts', userId);
+  const userCartSnap = await getDoc(userCartDoc);
+
+  if (userCartSnap.exists()) {
+    return userCartSnap.data().courses;
+  } else {
+    return [];
+  }
+};
+
+
+
+// useEffect(() => {
+      //   const fetchItems = async () => {
+      //     if (user) {
+      //       try {
+      //         const items = await fetchCartItems(user.uid);
+      //         setCartItems(items);
+      //       } catch (error) {
+      //         console.error('Error fetching cart items:', error);
+      //       }
+      //     }
+      //   };
+    
+      //   fetchItems();
+      // }, [user]);
+
+
+
+// export const fetchCartItems = (userId, callback) => {
+//   const userCartDoc = doc(fireDB, 'userCarts', userId);
+//   return onSnapshot(userCartDoc, async (docSnap) => {
+//     if (docSnap.exists()) {
+//       const userCart = docSnap.data().courses;
+
+//       if (userCart.length === 0) {
+//         callback([]);
+//         return;
+//       }
+
+//       const coursesRef = collection(fireDB, 'courses');
+//       const courseQuery = query(coursesRef, where('__name__', 'in', userCart));
+//       const courseSnapshot = await getDocs(courseQuery);
+//       const courses = courseSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+//       callback(courses);
+//     } else {
+//       callback([]);
+//     }
+//   });
+// };
+
+// export const fetchCartItems = (userId, updateCartItems) => {
+//   const userCartRef = collection(fireDB, 'userCarts');
+//   const queryCart = query(userCartRef, where('userId', '==', userId));
+
+//   const unsubscribe = onSnapshot(queryCart, (snapshot) => {
+//     const courses = [];
+//     snapshot.forEach((doc) => {
+//       courses.push({ id: doc.id, ...doc.data() });
+//     });
+//     updateCartItems(courses); // Update state with new cart items
+//   });
+
+//   // Return unsubscribe function to detach listener when component unmounts
+//   return unsubscribe;
+// };
+
+// export const fetchCartItems = async (userId) => {
+//   const userCart = await fetchUserCart(userId);
+  
+//   if (userCart.length === 0) return [];
+  
+//   const coursesRef = collection(fireDB, 'courses');
+//   const courseQuery = query(coursesRef, where('name', 'in', userCart));
+//   const courseSnapshot = await getDocs(courseQuery);
+//   const courses = courseSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+//   return courses;
+//   }; 
+
+// export const removeCartItem = async (userId, courseId) => {
+//   const userCartDoc = doc(fireDB, 'userCarts', userId);
+//   const userCartSnap = await getDoc(userCartDoc);
+
+//   if (userCartSnap.exists()) {
+//     const updatedCourses = userCartSnap.data().courses.filter(id => id !== courseId);
+//     await updateDoc(userCartDoc, {
+//       courses: updatedCourses,
+//     });
+//   }
+// };
+
+// export const removeCartItem = async (userId, courseId) => {
+//   const userCartDoc = doc(fireDB, 'userCarts', userId);
+//   const userCartSnap = await getDoc(userCartDoc);
+
+//   if (userCartSnap.exists()) {
+//     const updatedCourses = userCartSnap.data().courses.filter(id => id !== courseId);
+//     await updateDoc(userCartDoc, { courses: updatedCourses });
+//   } else {
+//     console.log("No such document!");
+//   }
+// };
+
+
+export const addCourseToCart = async (userId, courseId) => {
+  const userCartDoc = doc(fireDB, 'userCarts', userId);
+  const userCartSnap = await getDoc(userCartDoc);
+
+  if (userCartSnap.exists()) {
+    // Update existing cart
+    await updateDoc(userCartDoc, {
+      courses: [...userCartSnap.data().courses, courseId],
+    });
+  } else {
+    // Create new cart
+    await setDoc(userCartDoc, {
+      courses: [courseId],
+    });
+  }
+};
+
+const courses = [
+  {
+    id:1,
+    title: 'Python',
+    instructor:'John Doe',
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'Python is a programming language that lets you work quickly and integrate systems more effectively.',
+    long_description: 'Python is a programming language that lets you work quickly and integrate systems more effectively.',
+    duration: '6 weeks',
+    level: 'Beginner',
+    image: 'https://www.python.org/static/img/python-logo.png',
+    schedule: 'Tuesdays and Thursdays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+ {
+    id:2,
+    title: 'Java',
+    instructor:'Jane Doe',
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'Java is a programming language that lets you work quickly and integrate systems more effectively.',
+    long_description: 'Java is a programming language that lets you work quickly and integrate systems more effectively.',
+    duration: '6 weeks',
+    level: 'Beginner',
+    image: 'https://www.oracle.com/a/tech/img/cb88-java-logo-001.jpg',
+    schedule: 'Mondays and Wednesdays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id:3,
+    title: 'JavaScript',
+    instructor:'John Doe',
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'JavaScript is a programming language that lets you work quickly and integrate systems more effectively.',
+    long_description: 'JavaScript is a programming language that lets you work quickly and integrate systems more effectively.',
+    duration: '6 weeks',
+    level: 'Beginner',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png',
+    schedule: 'Tuesdays and Thursdays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id:4,
+    title: 'React',
+    instructor:'Jane Doe',
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'React is a programming language that lets you work quickly and integrate systems more effectively.',
+    long_description: 'React is a programming language that lets you work quickly and integrate systems more effectively.',
+    duration: '6 weeks',
+    level: 'Beginner',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg',
+    schedule: 'Mondays and Wednesdays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id:1,
+    title: 'Angular',
+    instructor:'John Doe',
+    courseCategory: 'Programming',
+    Outcome:['Creating user accounts', 'Creating games', 'Creating video', 'Creating video'],
+    content:{
+      'Course Orientation': 'Angular - the most important programming language in the world for  developing and developing',
+      'Programming': 'Angular - the most important programming language in'
+      'Angular ': 'the most important programming language in'
+    }
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'Angular is a programming language that lets you work quickly and integrate systems more effectively.',
+    long_description: 'Angular is a programming language that lets you work quickly and integrate systems more effectively.',
+    duration: '6 weeks',
+    level: 'Beginner',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg',
+    schedule: 'Tuesdays and Thursdays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+ }
+  
+]
+
+
+const courses = [
+  {
+    id: 1,
+    title: 'Angular',
+    instructor: 'John Doe',
+    courseCategory: 'Programming',
+    Outcome: ['Creating user accounts', 'Creating games', 'Creating videos', 'Building responsive UIs'],
+    content: {
+      'Course Orientation': 'Angular - the most important programming language in the world for developing and developing.',
+      'Programming Basics': 'Introduction to programming with Angular - key concepts and fundamentals.',
+      'Advanced Angular': 'In-depth look at Angular features and best practices.'
+    },
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'Angular is a programming language that lets you work quickly and integrate systems more effectively.',
+    long_description: 'Angular is a programming language that lets you work quickly and integrate systems more effectively. This course will take you from the basics of Angular programming to advanced topics. You will learn how to create dynamic user interfaces, handle user inputs, and connect your applications to backend services. By the end of the course, you will have built several real-world applications that showcase your new skills.',
+    duration: '6 weeks',
+    level: 'Beginner',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg',
+    schedule: 'Tuesdays and Thursdays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id: 2,
+    title: 'React',
+    instructor: 'Jane Smith',
+    courseCategory: 'Programming',
+    Outcome: ['Building dynamic UIs', 'Managing state', 'Handling user inputs', 'Integrating with APIs'],
+    content: {
+      'Introduction to React': 'Understanding the basics of React and how it works.',
+      'Component-Based Architecture': 'Learning about components, props, and state.',
+      'Advanced React': 'Exploring hooks, context API, and performance optimization.'
+    },
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'React is a JavaScript library for building user interfaces.',
+    long_description: 'React is a JavaScript library for building user interfaces. This course covers everything from the basics to advanced topics. You will learn how to create components, manage state, handle user inputs, and integrate with backend services. By the end of the course, you will have built several real-world applications using React.',
+    duration: '8 weeks',
+    level: 'Intermediate',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg',
+    schedule: 'Mondays and Wednesdays, 7:00 PM - 9:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id: 3,
+    title: 'Vue.js',
+    instructor: 'Alice Johnson',
+    courseCategory: 'Programming',
+    Outcome: ['Building single-page applications', 'Managing state', 'Handling user interactions', 'Using Vue Router'],
+    content: {
+      'Getting Started with Vue': 'Introduction to Vue.js and its core concepts.',
+      'State Management': 'Using Vuex for managing state in your application.',
+      'Routing': 'Implementing routing with Vue Router for multi-page applications.'
+    },
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'Vue.js is a progressive JavaScript framework for building user interfaces.',
+    long_description: 'Vue.js is a progressive JavaScript framework for building user interfaces. This course will guide you through the process of building single-page applications with Vue. You will learn how to manage state with Vuex, handle user interactions, and implement routing with Vue Router. By the end of the course, you will have the skills to build complex, data-driven applications using Vue.js.',
+    duration: '5 weeks',
+    level: 'Beginner',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg',
+    schedule: 'Wednesdays and Fridays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id: 4,
+    title: 'Node.js',
+    instructor: 'Michael Brown',
+    courseCategory: 'Programming',
+    Outcome: ['Building server-side applications', 'Working with databases', 'Handling HTTP requests', 'Implementing REST APIs'],
+    content: {
+      'Introduction to Node.js': 'Basics of Node.js and setting up your development environment.',
+      'Working with Databases': 'Connecting to and interacting with databases using Node.js.',
+      'Building APIs': 'Creating RESTful APIs and handling HTTP requests.'
+    },
+    requirements: ['Basic JavaScript knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'Node.js is a JavaScript runtime built on Chrome\'s V8 JavaScript engine.',
+    long_description: 'Node.js is a JavaScript runtime built on Chrome\'s V8 JavaScript engine. This course covers the fundamentals of Node.js, including setting up your development environment, working with databases, and building APIs. You will learn how to create server-side applications, handle HTTP requests, and implement RESTful APIs. By the end of the course, you will have the skills to build robust, scalable server-side applications using Node.js.',
+    duration: '7 weeks',
+    level: 'Intermediate',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg',
+    schedule: 'Tuesdays and Thursdays, 7:00 PM - 9:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id: 5,
+    title: 'Python for Data Science',
+    instructor: 'Emma Wilson',
+    courseCategory: 'Data Science',
+    Outcome: ['Data manipulation', 'Data visualization', 'Statistical analysis', 'Machine learning'],
+    content: {
+      'Introduction to Python': 'Basics of Python programming and setting up your environment.',
+      'Data Manipulation': 'Using libraries like Pandas for data manipulation and analysis.',
+      'Machine Learning': 'Introduction to machine learning with scikit-learn.'
+    },
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'Python is a versatile programming language widely used in data science.',
+    long_description: 'Python is a versatile programming language widely used in data science. This course will teach you how to use Python for data manipulation, visualization, and analysis. You will learn how to work with libraries like Pandas, Matplotlib, and scikit-learn to perform statistical analysis and build machine learning models. By the end of the course, you will have the skills to analyze data and build predictive models using Python.',
+    duration: '10 weeks',
+    level: 'Beginner',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg',
+    schedule: 'Mondays and Wednesdays, 6:00 PM - 8:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },
+  {
+    id: 6,
+    title: 'Machine Learning with TensorFlow',
+    instructor: 'David Martinez',
+    courseCategory: 'Data Science',
+    Outcome: ['Understanding machine learning concepts', 'Building neural networks', 'Training models', 'Deploying models'],
+    content: {
+      'Introduction to Machine Learning': 'Basics of machine learning and its applications.',
+      'TensorFlow Basics': 'Setting up TensorFlow and building simple neural networks.',
+      'Advanced TensorFlow': 'Building and training complex models with TensorFlow.'
+    },
+    requirements: ['Basic programming knowledge', 'Access to a computer', 'Internet connection'],
+    one_description: 'TensorFlow is an open-source machine learning framework developed by Google.',
+    long_description: 'TensorFlow is an open-source machine learning framework developed by Google. This course covers the fundamentals of machine learning and how to use TensorFlow to build and train models. You will learn how to create neural networks, train them on data, and deploy them to production. By the end of the course, you will have the skills to build and deploy machine learning models using TensorFlow.',
+    duration: '12 weeks',
+    level: 'Advanced',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg',
+    schedule: 'Tuesdays and Thursdays, 7:00 PM - 9:00 PM',
+    location: 'Online',
+    enrollmentStatus: 'Open',
+  },]
