@@ -1,6 +1,7 @@
 import React from 'react'
+import { IoStar, IoStarHalf } from 'react-icons/io5';
 
-const Scard = ({course,removeFromCart}) => {
+const Scard = ({course,removeFromCart,addToWishlist}) => {
 
     const handleRemove = () => {
         removeFromCart(course.id);
@@ -16,15 +17,16 @@ const Scard = ({course,removeFromCart}) => {
             <div className='flex flex-col'>
                 <div className='font-bold text-lg'>{course.title}</div>
                 <div className=' text-sm'>By {course.instructor}</div>
-                <div className='text-sm'>Rating</div>
+                <p className="my-1 flex gap-1 font-normal  dark:text-gray-400"><IoStar/><IoStar/><IoStar/><IoStar/><IoStarHalf/></p>
             </div>
         </div>
         <div className='flex gap-10'>
-            <div>
+            <div className='flex flex-col gap-3'>
                 <button className=' text-blue-600 hover:underline'onClick={handleRemove}>Remove</button>
+                <button className=' text-blue-600 hover:underline'onClick={() => addToWishlist(course.id)}>Wishlist </button>
             </div>
             <div className='font-bold text-purple-500 text-lg'>
-                $549
+                FREE
             </div>
         </div>
     </div>

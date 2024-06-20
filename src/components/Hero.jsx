@@ -14,6 +14,7 @@ const Hero = ({ courses ,loading }) => {
                 title={course.title}
                 image={course.image}
                 one_description={course.one_description}
+                instructor={course.instructor}
               />
             ))
           )}

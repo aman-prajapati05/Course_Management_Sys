@@ -26,8 +26,9 @@ const Dashboard = () => {
   }, []);
 
   const handleSearch = (searchTerm) => {
-    const filtered = courses.filter((course) =>
-      course.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = courses.filter((course) => 
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.instructor.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredCourses(filtered);
     console.log('Filtered:', filtered);
