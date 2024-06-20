@@ -5,7 +5,6 @@ import { IoStar,IoStarHalf } from "react-icons/io5";
 const Card = ({id,title,one_description,image,instructor}) => {
     const navigate = useNavigate();
     const handleClick = ()=>{
-        console.log(id)
         navigate(`/courses/${id}`);
     }
   return (

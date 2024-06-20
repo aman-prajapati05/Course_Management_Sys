@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
-import Card from './Card'
 import Subs from './Subs'
 import Unsubs from './Unsubs'
 import { getCourseDetails, getCurrentUser, getUserCourses, markCourseAsComplete } from '../firebase/FirebaseConfig'

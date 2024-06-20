@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from './Navbar'
-import { Link, useLocation, useNavigate  } from 'react-router-dom'
-import { getCourseDetails, getCourseDetails1, getCurrentUser, getUserCart } from '../firebase/FirebaseConfig';
+import { Link,  useNavigate  } from 'react-router-dom'
+import { getCourseDetails1, getCurrentUser, getUserCart } from '../firebase/FirebaseConfig';
 import { addPurchasedCourses, clearCart} from '../firebase/FirebaseConfig';
 
 const Checkout = () => {
@@ -53,37 +52,6 @@ const Checkout = () => {
     return coursesData.reduce((total, item) => total + item.price, 0);
   };
 
-  // const handleBuy = async () => {
-  //   if (!user) return;
-
-  //   try {
-  //     await addPurchasedCourses(user.uid, cartItems);
-  //     await clearCart(user.uid);
-  //     navigate('/MyCourses'); // Navigate to the My Courses page
-  //   } catch (error) {
-  //     console.error('Error completing purchase:', error);
-  //   }
-  // };
-
-  // const handleBuy = async () => {
-  //   if (!user || !cartItems || cartItems.length === 0) return;
-
-  //   try {
-  //     // Ensure cartItems is an array of objects with at least an 'id' field
-  //     const coursesWithIds = cartItems.map(course => ({ id: course.id }));
-
-  //     // Add purchased courses with initial completion status
-  //     await addPurchasedCourses(user.uid, coursesWithIds);
-
-  //     // Clear the user's cart after purchasing courses
-  //     await clearCart(user.uid);
-
-  //     // Navigate to the My Courses page after successful purchase
-  //     navigate('/MyCourses');
-  //   } catch (error) {
-  //     console.error('Error completing purchase:', error);
-  //   }
-  // };
   const handleBuy = async () => {
     if (!user || cartItems.length === 0) return;
   
@@ -109,7 +77,7 @@ const Checkout = () => {
   return (
     <>
     <div className='mx-auto flex flex-wrap max-w-7xl justify-between border-b-2 shadow-sm px-4 py-8 sm:px-6 text-black lg:px-8'>
-      <div className='text-3xl font-bold text-gray-900 dark:text-white'>Logo</div>
+      <div className='text-3xl font-bold text-gray-900 :text-white'>Logo</div>
       <Link to = '/' ><button className=' text-purple-500 text-xl hover:underline'>Cancel</button></Link>
     </div>
     <div className='mx-auto max-w-7x px-4 py-8 sm:px-6 text-black lg:px-8'>
@@ -123,8 +91,8 @@ const Checkout = () => {
 
             <div className=' flex justify-center mx-14'>
             <div className=' rounded-2xl w-96  text-white bg-gray-700 flex-col items-center'>
-            <div className=' text-3xl py-4 px-6'>Price : 455</div>
-            <div className=' text-3xl px-6'>Discount Price : 577</div>
+            <div className=' text-3xl py-4 px-6'>Price : 0</div>
+            <div className=' text-3xl px-6'>Discount Price : 0</div>
             <button className='text-center text-3xl px-44 py-20 hover:text-purple-500' onClick={handleBuy}>Buy</button>
             </div>
             </div>

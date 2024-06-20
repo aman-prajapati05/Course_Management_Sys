@@ -25,7 +25,7 @@ const CourseDetails = () => {
           console.error("Course ID is missing");
           return;
         }
-        console.log("Fetching course with ID:", courseId);
+        // console.log("Fetching course with ID:", courseId);
         const courseData = await fetchCourseById(courseId);
         if (courseData) {
           setCourse(courseData);
@@ -59,8 +59,8 @@ const CourseDetails = () => {
       try {
         await addCourseToCart(user.uid, courseId);
         if (addCourseToCart.success) {
-          setAddedtocart(true);
           alert("Course added to cart successfully!");
+          setAddedtocart(true);
         }
         
       } catch (error) {
@@ -97,13 +97,13 @@ const CourseDetails = () => {
             </div>
             <div className="flex flex-col mx-8 gap-4">
             <div className="text-4xl font-bold text-purple-500 py-2">Price:  FREE</div>
-            <button onClick={handleAddToCart} className="  text-white bg-black text-lg font-bold p-4 px-12 ">
-            <Link to='/AddtoCart' className="">Enroll Now</Link>
-        </button>
+            <Link to='/Addtocart' className=""><div onClick={handleAddToCart} className="  text-white bg-black text-lg font-bold p-4 xl:px-24 lg:pl-10 md:px-14">
+            Enroll Now
+        </div></Link>
         { addedtocart ?
-          (  <button  className="  text-black border  text-lg font-bold p-4 px-11 ">
-          <Link to ='/AddtoCart'>Go to Cart</Link>
-        </button>):
+          (  <Link to ='/Addtocart'><div  className="  text-black border  text-lg font-bold p-4 px-11 ">
+          Go to Cart
+        </div></Link>):
         (<button onClick={handleAddToCart} className="  text-black border mb-8 text-lg font-bold p-4 px-11 ">
           Add to Cart
         </button>)}
@@ -121,19 +121,20 @@ const CourseDetails = () => {
         <div className="text-3xl font-bold pt-3 ">{course.title}</div>
         <p className="text-xl  ">{course.one_description}</p>
         <p className="pt-4   text-lg">{course.instructor}</p>
+        <p className="my-1 flex gap-1 font-normal  dark:text-gray-400"><IoStar/><IoStar/><IoStar/><IoStar/><IoStarHalf /></p>
         <div className="flex justify-start pt-4 gap-4">
           <div>Last updated 12/2022</div>
           <div>English</div>
           <div>English [Auto]</div>
         </div>
-        <div className="text-4xl font-bold text-purple-500 py-2">$544</div>
-        <button onClick={handleAddToCart} className="  text-white bg-black text-lg font-bold p-4 px-12 ">
+        <div className="text-4xl font-bold text-purple-500 py-2">FREE</div>
+        <Link to ='/Addtocart'><div onClick={handleAddToCart} className="  text-white bg-black text-lg font-bold text-center p-4 px-12 ">
           Enroll Now
-        </button>
+        </div></Link>
         { addedtocart ?
-          (  <button  className="  text-black border  text-lg font-bold p-4 px-11 ">
-          <Link to ='/AddtoCart'>Go to Cart</Link>
-        </button>):
+          (  <Link to ='/AddtoCart'><div  className=" cursor-pointer text-black border  text-lg font-bold p-4 px-11 ">
+          Go to Cart
+        </div></Link>):
         (<button onClick={handleAddToCart} className="  text-black border  text-lg font-bold p-4 px-11 ">
           Add to Cart
         </button>)}
