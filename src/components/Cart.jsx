@@ -1,9 +1,9 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Scard from './Scard'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react'
-import {  getCourseDetails, getCourseDetails1, getCurrentUser, getUserCart, removeCourseFromCart } from '../firebase/FirebaseConfig'
+import {  addCourseToWishlist, getCourseDetails1, getCurrentUser, getUserCart, removeCourseFromCart } from '../firebase/FirebaseConfig'
 
 const Cart = () => {
 
@@ -46,44 +46,41 @@ const Cart = () => {
         try {
           const coursesData = await getCourseDetails1(courseIds);
           setCoursesData(coursesData);
-          setCartItems(courseIds); // Set course IDs separately if needed
+          setCartItems(courseIds); 
         } catch (error) {
           console.error('Error fetching courses:', error);
         }
       };
 
-      // const handleRemoveCourse = async (courseId) => {
-      //   try {
-      //     await removeCourseFromCart(user.uid, courseId);
-      //     const updatedCourseIds = cartItems.filter(id => id !== courseId);
-      //     setCartItems(updatedCourseIds);
-      //   } catch (error) {
-      //     console.error('Error removing course from cart:', error);
-      //   }
-      // };
-
       const handleRemoveCourse = async (courseId) => {
         try {
           await removeCourseFromCart(user.uid, courseId);
-          // Update local state to remove the course from cartItems
           const updatedCourseIds = cartItems.filter(id => id !== courseId);
           setCartItems(updatedCourseIds);
-          // Optionally, fetch updated course details if needed
-          // fetchCourseDetails(updatedCourseIds);
         } catch (error) {
           console.error('Error removing course from cart:', error);
         }
       };
+
+      const addToWishlist = async (courseId) => {
+        try {
+          await addCourseToWishlist(user.uid, courseId);
+          alert('Course added to wishlist!');
+          handleRemoveCourse(courseId);
+        } catch (error) {
+          console.error('Error adding course to wishlist:', error);
+          alert('Failed to add course to wishlist. Please try again later.');
+        }
+      };
       
+      
+    
      
     
       const calculateTotal = () => {
         // return coursesData.reduce((total, item) => total + item.price, 0);
         return 0;
       };
-      // const handleCheckout = () => {
-      //   Navigate('/Checkout', { state: { cartItems, coursesData, totalPrice: calculateTotal() } });
-      // };
 
   return (
     <>
@@ -98,7 +95,7 @@ const Cart = () => {
                      <p className='text-xl font-semibold'>{coursesData.length} course{coursesData.length !== 1 ? 's' : ''} in cart</p>
                      
                      {coursesData && coursesData.length > 0 ? (coursesData.map(item => (
-            <Scard key={item.id} course={item} removeFromCart={() => handleRemoveCourse(item.id)} />
+            <Scard key={item.id} course={item} removeFromCart={() => handleRemoveCourse(item.id)} addToWishlist={addToWishlist}/>
           ))) : (<p>No items in cart</p>)}   
             </div>
             <div className='flex flex-col md:w-[30%]  px-4 py-12 sm:px-6 lg:px-8 flex-wrap '>
