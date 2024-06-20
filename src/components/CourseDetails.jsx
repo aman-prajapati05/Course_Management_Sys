@@ -2,13 +2,17 @@ import React from "react";
 import Navbar from "./Navbar";
 import { IoCheckmark } from "react-icons/io5";
 import { useParams } from "react-router-dom";
-import { fetchCourseById } from "../firebase/FirebaseConfig";
+import { fetchCourseById, onAuthStateChanged ,auth} from "../firebase/FirebaseConfig";
 import { useState, useEffect } from "react";
 import Accordion from "./Accordion";
+import { Link } from "react-router-dom";
+import { addCourseToCart } from "../firebase/FirebaseConfig";
 
 const CourseDetails = () => {
-  const courseId = "0a8wNwBBUaF3YUYp9uHW";
+  const {courseId} = useParams();
   const [course, setCourse] = useState(null);
+  const [user, setUser] = useState(null);
+  const [addedtocart,setAddedtocart] = useState(false);
 
   useEffect(() => {
     const getCourse = async () => {
@@ -31,9 +35,39 @@ const CourseDetails = () => {
     getCourse();
   }, [courseId]);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        setUser(authUser);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   if (!course) {
     return <div>Loading...</div>;
   }
+  const handleAddToCart = async () => {
+    if (user) {
+      try {
+        await addCourseToCart(user.uid, courseId);
+        if (addCourseToCart.success) {
+          setAddedtocart(true);
+          alert("Course added to cart successfully!");
+        }
+        
+      } catch (error) {
+        console.error("Error adding course to cart: ", error);
+        alert("Failed to add course to cart. Please try again later.");
+      }
+    } else {
+      alert("Please sign in to add courses to your cart.");
+      
+    }
+  };
 
   return (
     <>
@@ -58,19 +92,23 @@ const CourseDetails = () => {
             </div>
             <div className="flex flex-col mx-8 gap-4">
             <div className="text-4xl font-bold text-purple-500 py-2">Price:  $544</div>
-        <button className="  text-white bg-black text-lg font-bold p-4 px-12 ">
-          Enroll Now
+            <button onClick={handleAddToCart} className="  text-white bg-black text-lg font-bold p-4 px-12 ">
+            <Link to='/AddtoCart' className="">Enroll Now</Link>
         </button>
-        <button className="  text-black border  text-lg font-bold p-4 px-11 mb-6">
+        { addedtocart ?
+          (  <button  className="  text-black border  text-lg font-bold p-4 px-11 ">
+          <Link to ='/AddtoCart'>Go to Cart</Link>
+        </button>):
+        (<button onClick={handleAddToCart} className="  text-black border  text-lg font-bold p-4 px-11 ">
           Add to Cart
-        </button>
+        </button>)}
             </div>
           </div>
         </div>
       </div>
       <div className="lg:hidden flex flex-col items-center w-[90%] gap-4 mx-auto">
         <div className="text-xs font-bold ">
-          {/* {course.category} */} hello
+          {course.category}
         </div>
         <div className="w-[90%] md:w-[70%]">
           <img className="w-full" src={course.image} alt="" />
@@ -84,12 +122,17 @@ const CourseDetails = () => {
           <div>English [Auto]</div>
         </div>
         <div className="text-4xl font-bold text-purple-500 py-2">$544</div>
-        <button className="  text-white bg-black text-lg font-bold p-4 px-12 ">
+        <button onClick={handleAddToCart} className="  text-white bg-black text-lg font-bold p-4 px-12 ">
           Enroll Now
         </button>
-        <button className="  text-black border  text-lg font-bold p-4 px-11 ">
+        { addedtocart ?
+          (  <button  className="  text-black border  text-lg font-bold p-4 px-11 ">
+          <Link to ='/AddtoCart'>Go to Cart</Link>
+        </button>):
+        (<button onClick={handleAddToCart} className="  text-black border  text-lg font-bold p-4 px-11 ">
           Add to Cart
-        </button>
+        </button>)}
+        
       </div>
       <div className="mx-auto flex flex-wrap max-w-7xl justify-between px-4 py-8 sm:px-6 lg:px-8">
         <div className=" border-2 border-black lg:w-[50%]">
