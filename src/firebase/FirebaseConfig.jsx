@@ -24,13 +24,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCIbJXeBxUMebLR5UflLBxOEOUdToelwOo",
-  authDomain: "lmsystem-f913c.firebaseapp.com",
-  projectId: "lmsystem-f913c",
-  storageBucket: "lmsystem-f913c.appspot.com",
-  messagingSenderId: "520749301809",
-  appId: "1:520749301809:web:088b4815df3390bbb49510",
-  measurementId: "G-ZYQWX1QTEV",
+  apiKey: "your-api-key",
+  authDomain: "your-app.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-app.appspot.com",
+  messagingSenderId: "your-messaging-sender-id",
+  appId: "your-app-id",
+  measurementId: "your-measurement-id"
 };
 
 const app = initializeApp(firebaseConfig);
